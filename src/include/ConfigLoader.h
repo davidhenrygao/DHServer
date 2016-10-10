@@ -9,13 +9,15 @@ class ConfigLoader
 {
 public:
 	virtual bool init(string configFilePath) = 0;
-	virtual string get(string property) = 0;
+	virtual bool get(string property, string &value) = 0;
 	virtual void set(string property, string value) = 0;
-	virtual int getInt(string property) = 0;
+	virtual bool getInt(string property, int &value) = 0;
 	virtual void setInt(string property, int value) = 0;
 
+	//just for test
+	virtual void print() = 0;
+
 private:
-	std::map<string, string> m_configMap;
 };
 
 class LuaConfigLoader: public ConfigLoader
@@ -24,12 +26,16 @@ public:
 	LuaConfigLoader () {};
 	~LuaConfigLoader () {};
 	bool init(string configFilePath);
-	string get(string property);
+	bool get(string property, string &value);
 	void set(string property, string value);
-	int getInt(string property);
+	bool getInt(string property, int &value);
 	void setInt(string property, int value);
 
+	//just for test
+	void print();
+
 private:
+	std::map<string, string> m_configMap;
 };
 
 #endif /* CONFIGLOADER_H */

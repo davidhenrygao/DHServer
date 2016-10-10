@@ -12,7 +12,7 @@ enum LoaderType
 class ConfigLoaderFactory
 {
 public:
-	static ConfigLoader& get(LoaderType type);
+	static ConfigLoader* get(LoaderType type);
 };
 
 #endif /* CONFIGLOADERFACTORY_H */

@@ -1,6 +1,6 @@
 #include "ConfigLoaderFactory.h"
 
-ConfigLoader& ConfigLoaderFactory::get(LoaderType type) {
+ConfigLoader* ConfigLoaderFactory::get(LoaderType type) {
 	ConfigLoader *ploader = NULL;
 	switch (type) {
 		case LUA_LOADER:
@@ -11,5 +11,5 @@ ConfigLoader& ConfigLoaderFactory::get(LoaderType type) {
 			ploader = new LuaConfigLoader();  //lua configure loader is as default
 			break;
 	}
-	return *ploader;
+	return ploader;
 }
