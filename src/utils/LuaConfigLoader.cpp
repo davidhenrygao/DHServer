@@ -39,7 +39,8 @@ bool LuaConfigLoader::init(string configFilePath) {
 		return false;
 	}
 
-	if (LuaUtils::tableToMap(L, -1, m_configMap) == false) {
+	int top_index = lua_gettop(L);
+	if (LuaUtils::tableToMap(L, top_index, m_configMap) == false) {
 		std::cout << "Load configure file error: Transfer lua table to map failed!" 
 			<< std::endl;
 		lua_close(L);

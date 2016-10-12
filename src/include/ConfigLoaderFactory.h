@@ -7,6 +7,8 @@
 enum LoaderType 
 {
 	LUA_LOADER,
+	XML_LOADER,
+	JSON_LOADER,
 };
 
 class ConfigLoaderFactory

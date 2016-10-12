@@ -10,7 +10,7 @@ bool LuaUtils::tableToMap(lua_State *L, int index, std::map<string, string> &map
 	if (L == NULL) {
 		return false;
 	}
-	if (lua_istable(L, index) == 0) {
+	if (index <= 0 || lua_istable(L, index) == 0) {
 		return false;
 	}
 	//iterate the table in the stack.
