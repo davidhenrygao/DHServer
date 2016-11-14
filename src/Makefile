@@ -34,4 +34,5 @@ $(LUA_LIB):
 
 clean:
 	$(RM) $(PROJ_TARGET) $(PROJ_OBJECTS); \
+	$(RM) $(LUA_LIB); \
 	cd $(LUA_LIB_PATH) && $(MAKE) clean
