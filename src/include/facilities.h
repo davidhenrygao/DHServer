@@ -1,14 +1,26 @@
-#ifndef FACILITIES_H_VMUJ83ZW
-#define FACILITIES_H_VMUJ83ZW
+/*
+ *
+ * Copyright © 2016, David Henry.
+ * All Rights Reserved.
+ * 
+ * Author: David Henry
+ * Datetime: 2016-11-15 15:30
+ *
+ * Note: 
+ *
+ */
+
+#ifndef DHSERVER_FACILITIES_H_
+#define DHSERVER_FACILITIES_H_
 #include "common.h"
 
-class DataTypeTranfer
-{
-public:
-	static string intToString(int i);
+//A data transfer class utility.
+class DataTypeTranfer {
+ public:
+  static string IntToString(int i);
 
-private:
-	/* data */
+ private:
+  /* data */
 };
 
-#endif /* end of include guard: FACILITIES_H_VMUJ83ZW */
+#endif /* end of include guard: DHSERVER_FACILITIES_H_*/
