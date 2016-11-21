@@ -1,7 +1,7 @@
 root_dir = "./"
 ip = "192.168.82.198"
 port = 2016
-thread = 8
+--thread = 16
 log_dir = root_dir .. "log/"
 log_level = 1
 daemonize = true
