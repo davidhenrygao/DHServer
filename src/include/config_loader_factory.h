@@ -16,12 +16,6 @@
 #include "common.h"
 #include "config_loader.h"
 
-enum LoaderType {
-  kLuaLoader,
-  kXmlLoader,
-  kJsonLoader,
-};
-
 class ConfigLoaderFactory {
  public:
   //Get the loader according to LoaderType.

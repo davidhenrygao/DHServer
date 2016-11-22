@@ -9,7 +9,9 @@ RM=rm -f
 PROJ_ROOT_DIR=..
 PROJ_TARGET=$(PROJ_ROOT_DIR)/DHServer
 PROJ_OBJECTS=server/main.o \
-	     utils/config_loader_factory.o utils/lua_config_loader.o utils/lua_utils.o utils/facilities.o
+	     utils/config_loader_factory.o utils/lua_config_loader.o \
+	     utils/lua_utils.o utils/facilities.o \
+	     utils/configuration_factory.o utils/configuration_map.o
 PROJ_INC_PATH=./include
 PROJ_LIB_DIR=$(PROJ_ROOT_DIR)/lib
 

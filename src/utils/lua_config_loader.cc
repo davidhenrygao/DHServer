@@ -11,11 +11,9 @@
  *
  */
 
-#include <cstdlib>
-#include "config_loader.h"
+#include "lua_config_loader.h"
 #include "lua_header.h"
 #include "lua_utils.h"
-#include "facilities.h"
 
 //A snippet code string of lua.
 //Helping load the lua code in the given file and return the table result.
@@ -28,9 +26,11 @@ static const string kLuaCfgLoadString = "\
 ";
 
 //Create a lua stack to load the configure code in the given file.
-//And put the result into internal attribute container.
-bool LuaConfigLoader::Init(string file) {
-  const char *cfgFile = file.c_str();
+//And put the result into configuration container.
+bool LuaConfigLoader::Load(
+    string file_path,
+    ConfigurationInterface *pconfiguration) {
+  const char *cfgFile = file_path.c_str();
 
   lua_State *L = luaL_newstate();
   luaL_openlibs(L);
@@ -55,48 +55,18 @@ bool LuaConfigLoader::Init(string file) {
   }
 
   int top_index = lua_gettop(L);
-  if (LuaUtils::TableToMap(L, top_index, cfg_map_) == false) {
+  map<string, string> cfg_map;
+  if (LuaUtils::TableToMap(L, top_index, cfg_map) == false) {
     std::cout << "Load configure file error: Transfer lua table to map failed!" 
       << std::endl;
     lua_close(L);
     return false;
   }
+  for (map<string, string>::const_iterator iter = cfg_map.begin(); 
+      iter != cfg_map.end(); ++iter) {
+    pconfiguration->Set(iter->first, iter->second);
+  }
 
   lua_close(L);
   return true;
-}
-
-bool LuaConfigLoader::Get(string property, string &value) const {
-  std::map<string, string>::const_iterator k_iter = cfg_map_.find(property);
-  if (k_iter != cfg_map_.end()) {
-    value = k_iter->second;
-    return true;
-  }
-  return false;
-}
-
-bool LuaConfigLoader::GetInt(string property, int &value) const {
-  std::map<string, string>::const_iterator k_iter = cfg_map_.find(property);
-  if (k_iter != cfg_map_.end()) {
-    string strVal = k_iter->second;
-    value = atoi(strVal.c_str());
-    return true;
-  }
-  return false;
-}
-
-void LuaConfigLoader::Set(string property, string value) {
-  cfg_map_[property] = value;
-}
-
-void LuaConfigLoader::SetInt(string property, int value) {
-  string strVal = DataTypeTranfer::IntToString(value);
-  cfg_map_[property] = strVal;
-}
-
-void LuaConfigLoader::Print() const {
-  for (std::map<string,string>::const_iterator k_iter = cfg_map_.begin(); k_iter != cfg_map_.end(); ++k_iter) {
-    std::cout << "key: "<< k_iter->first << "; value: " << k_iter->second << std::endl;
-  }
-  
 }

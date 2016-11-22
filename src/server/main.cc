@@ -13,6 +13,7 @@
 
 #include "common.h"
 #include "config_loader_factory.h"
+#include "configuration_factory.h"
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
@@ -20,13 +21,21 @@ int main(int argc, char *argv[]) {
       "Usage: DHServer configure_file" << std::endl;
     return -1;
   }
-  ConfigLoaderInterface *ploader = ConfigLoaderFactory::GetLoader(kLuaLoader);
+  ConfigurationInterface *pconfiguration = 
+    ConfigurationFactory::GetConfiguration();
+  ConfigLoaderInterface *ploader = 
+    ConfigLoaderFactory::GetLoader(kLuaLoader);
+  if (pconfiguration == NULL || ploader == NULL) {
+    return -1;
+  }
   string cfg_file(argv[1]);
-  if (!ploader->Init(cfg_file)) {
+  if (!ploader->Load(cfg_file, pconfiguration)) {
     std::cout << "Init configure file failed!" << std::endl;
     return -1;
   }
-  ploader->Print();
+  delete ploader;
+  ploader = NULL;
+  pconfiguration->Print();
   std::cout << "DHServer Setup Success!" << std::endl;
   return 0;
 }

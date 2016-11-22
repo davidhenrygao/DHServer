@@ -12,6 +12,7 @@
  */
 
 #include "config_loader_factory.h"
+#include "lua_config_loader.h"
 
 //Allocate a loader according to the given loader type and renturn its pointer.
 //Default, return a pointer of lua loader.
@@ -26,6 +27,9 @@ ConfigLoaderInterface* ConfigLoaderFactory::GetLoader(LoaderType type) {
         Unknown loader type " << type << std::endl;
       ploader = new LuaConfigLoader();  //lua configure loader is as default
       break;
+  }
+  if (ploader == NULL) {
+    std::cout << "Allocate configure loader object error!" << std::endl;
   }
   return ploader;
 }
