@@ -18,6 +18,7 @@
 
 class ConfigLoaderInterface {
  public:
+  virtual ~ConfigLoaderInterface() {}
   //Load configure attributes from file and initialize configuration container.
   virtual bool Load(string file_path, 
                     ConfigurationInterface *pconfiguration) = 0;
