@@ -1,1 +1,22 @@
+/*
+ *
+ * Copyright © 2016, David Henry.
+ * All Rights Reserved.
+ * 
+ * Author: David Henry
+ * Email: davidhenrygao@gmail.com
+ * Datetime: 2016-11-25 17:15
+ *
+ * Note: 
+ *
+ */
+
 DavidHenry Server.
+
+3rd -- third party source code
+cfg -- configure files
+doc -- documents
+inc -- header files
+lib -- libraries
+lib-src -- dh library source code
+src -- server source code

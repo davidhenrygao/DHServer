@@ -27,6 +27,7 @@ PROJ_LIB_OBJS:=
 
 SUB_MAKEFILE_DIR:= src lib-src
 
+#This must be first target.
 all: $(PLAT)
 
 -include $(patsubst %, %/include.mk, $(SUB_MAKEFILE_DIR))
@@ -34,6 +35,10 @@ all: $(PLAT)
 PROJ_OBJS := $(PROJ_SRC:.cc=.o)
 PROJ_LIB_OBJS := $(PROJ_LIB_SRC:.cc=.o)
 PROJ_LIBS+=$(PROJ_LIB_PATH)/$(DH_LIB) $(PROJ_LIB_PATH)/$(LUA_LIB)
+
+DEPENDS:= $(PROJ_OBJS:.o=.d)
+LIB_DEPENDS:= $(PROJ_LIB_OBJS:.o=.d)
+-include $(DEPENDS) $(LIB_DEPENDS)
 
 $(PLAT): $(PROJ_TARGET)
 
@@ -43,8 +48,6 @@ $(PROJ_TARGET): $(PROJ_OBJS) $(PROJ_LIBS)
 $(PROJ_LIB_PATH)/$(LUA_LIB):
 	cd $(LUA_SRC_PATH) && $(MAKE) $(PLAT)
 	cp $(LUA_SRC_PATH)/$(LUA_LIB) $@
-
-include $(PROJ_OBJS:.o=.d) $(PROJ_LIB_OBJS:.o=.d)
 
 %.d: %.cc
 	./depend.sh `dirname $*` $(CXXFLAGS) $^ > $@
@@ -57,7 +60,7 @@ clean:
 
 cleanall:
 	$(RM) $(PROJ_TARGET) $(PROJ_OBJS) $(PROJ_LIB_OBJS); \
-	$(RM) $(PROJ_OBJS:.o=.d) $(PROJ_LIB_OBJS:.o=.d); \
+	$(RM) $(DEPENDS) $(LIB_DEPENDS); \
 	$(RM) $(PROJ_LIBS); \
 	cd $(LUA_SRC_PATH) && $(MAKE) clean
 
