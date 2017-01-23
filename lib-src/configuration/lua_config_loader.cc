@@ -38,8 +38,7 @@ bool LuaConfigLoader::Load(
   int err = luaL_loadbuffer(L, kLuaCfgLoadString.c_str(), 
       kLuaCfgLoadString.length(), "luaCfgLoadString");
   if (err) {
-    std::cout << "Load configure loadString error: " 
-      << lua_tostring(L, -1) << std::endl;
+    LOG_ERROR("Load configure loadString error: %s", lua_tostring(L, -1));
     lua_close(L);
     return false;
   }
@@ -48,8 +47,7 @@ bool LuaConfigLoader::Load(
   lua_pushstring(L, cfgFile);
   err = lua_pcall(L, 1, 1, 0);
   if (err) {
-    std::cout << "Load configure file error: " 
-      << lua_tostring(L, -1) << std::endl;
+    LOG_ERROR("Load configure file error: %s", lua_tostring(L, -1));
     lua_close(L);
     return false;
   }
@@ -57,8 +55,7 @@ bool LuaConfigLoader::Load(
   int top_index = lua_gettop(L);
   map<string, string> cfg_map;
   if (LuaUtils::TableToMap(L, top_index, cfg_map) == false) {
-    std::cout << "Load configure file error: Transfer lua table to map failed!" 
-      << std::endl;
+    LOG_ERROR("Load configure file error: Transfer lua table to map failed!");
     lua_close(L);
     return false;
   }

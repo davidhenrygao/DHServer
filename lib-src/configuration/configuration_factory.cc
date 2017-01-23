@@ -21,14 +21,13 @@ ConfigurationInterface* ConfigurationFactory::GetConfiguration(
       pconfiguration = new ConfigurationMap();
       break;
     default:
-      std::cout << "Unknown configuration container type: " 
-        << type << std::endl;
+      LOG_INFO("Unknown configuration container type(%u).", type); 
       break;
   }
   if (pconfiguration != NULL) {
     SetDefaultConfiguration(pconfiguration);
   } else {
-    std::cout << "Allocate configuration object error!" << std::endl;
+    LOG_ERROR("Allocate configuration object error!");
   }
   return pconfiguration;
 }

@@ -14,11 +14,12 @@
 #include "common.h"
 #include "config_loader_factory.h"
 #include "configuration_factory.h"
+#include "lockqueue.h"
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
-    std::cout << "Error: Inupt Arguments Error!\n" \
-      "Usage: DHServer configure_file" << std::endl;
+    LOG_ERROR("Inupt Arguments Error!\n" \
+      "Usage: DHServer configure_file");
     return -1;
   }
   ConfigurationInterface *pconfiguration = 
@@ -30,12 +31,12 @@ int main(int argc, char *argv[]) {
   }
   string cfg_file(argv[1]);
   if (!ploader->Load(cfg_file, pconfiguration)) {
-    std::cout << "Init configure file failed!" << std::endl;
+    LOG_ERROR("Init configure file failed!");
     return -1;
   }
   delete ploader;
   ploader = NULL;
   pconfiguration->Print();
-  std::cout << "DHServer Setup Success!" << std::endl;
+  LOG_INFO("DHServer Setup Success!");
   return 0;
 }

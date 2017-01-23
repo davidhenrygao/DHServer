@@ -45,7 +45,7 @@ void ConfigurationMap::SetInt(string property, int value) {
 void ConfigurationMap::Print() const {
   for (std::map<string,string>::const_iterator k_iter = cfg_map_.begin(); 
       k_iter != cfg_map_.end(); ++k_iter) {
-    std::cout << "key: "<< k_iter->first << "; value: " << k_iter->second 
-      << std::endl;
+    LOG_INFO("key: %s; value: %s", 
+        k_iter->first.c_str(), k_iter->second.c_str());
   }
 }

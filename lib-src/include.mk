@@ -1,5 +1,5 @@
 CUR_DIR:=lib-src
-MODULES:=configuration utils
+MODULES:=configuration utils logger
 MODULE_PATH:=$(foreach v, $(MODULES), $(CUR_DIR)/$(v))
 SRC:=$(foreach v, $(MODULE_PATH), $(wildcard $(v)/*.cc))
 LIB_NAME:=libdh.a

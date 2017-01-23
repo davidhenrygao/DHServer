@@ -10,24 +10,31 @@
  * Note: 
  *
  */
-#include "common.h"
+#ifndef DHSERVER_INTERNAL_LOGGER_H_
+#define DHSERVER_INTERNAL_LOGGER_H_
 
-enum LogLevel { 
-  kFatal,
-  kError,
-  kWarning,
-  kInfo,
-  kDebug,
-};
+#include "common.h"
+#include "lockqueue.h"
+#include "loglevel.h"
+#include "logmsg.h"
 
 //Singleton use a function's local static object variable.
+//Note: not thread safe. 
+//You should use getInstance in the main thread first.
 class Logger {
  public:
-  static Logger& getInstance() {
-    static Logger logger;
-    return logger;
-  }
-  void Log(LogLevel lv, string msg);
+  static Logger& getInstance();
+  void Log(LogLevel lv, const string &msg);
+  bool IsInit()const;
+  LogMsg* FetchLogMsg();
 
  private:
+  bool init_;
+  LockQueue<LogMsg*> lq_;
+
+  Logger();
+  Logger(const Logger&);
+  Logger& operator=(const Logger&);
 };
+
+#endif /* end of include guard: DHSERVER_INTERNAL_LOGGER_H_ */

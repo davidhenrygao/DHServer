@@ -1,7 +1,7 @@
 PLAT:=linux
 CXX:=g++
 CXXFLAGS=-g -O0 -Wall -I$(PROJ_INC_PATH) -I$(LUA_INC_PATH) -L$(PROJ_LIB_PATH)
-LDFLAGS:=-ldl
+LDFLAGS:=-ldl -pthread
 AR= ar rcu
 RANLIB= ranlib
 

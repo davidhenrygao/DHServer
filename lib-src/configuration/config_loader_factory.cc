@@ -23,13 +23,13 @@ ConfigLoaderInterface* ConfigLoaderFactory::GetLoader(LoaderType type) {
       ploader = new LuaConfigLoader();
       break;
     default:
-      std::cout << "ConfigLoaderFactory get ConfigLoader error: \
-        Unknown loader type " << type << std::endl;
+      LOG_INFO("ConfigLoaderFactory get ConfigLoader error: \
+        Unknown loader type(%u).", type);
       ploader = new LuaConfigLoader();  //lua configure loader is as default
       break;
   }
   if (ploader == NULL) {
-    std::cout << "Allocate configure loader object error!" << std::endl;
+    LOG_ERROR("Allocate configure loader object error!");
   }
   return ploader;
 }

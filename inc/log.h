@@ -11,6 +11,12 @@
  *
  */
 
+#ifndef DHSERVER_LOG_H_
+#define DHSERVER_LOG_H_
+
+//Max Message body's length
+#define MAX_MSG_LEN 128
+
 //Formatting details are in man page("man 3 printf").
 //These functions use vsnprintf c function to get a format string.
 //And put the log string into the logger queue.
@@ -29,3 +35,5 @@ void LogDebug(const char *format, ...);
 
 //If you use gcc, you can alse define the macro as below
 //#define LOG_FATAL(fmt, args...) LogFatal(fmt, ##args)
+
+#endif /* end of include guard: DHSERVER_LOG_H_ */

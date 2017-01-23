@@ -18,7 +18,12 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <cerrno>
 
 using namespace std;
+
+#include "log.h"
+
+#define MAX_ERROR_MSG_LEN 128
 
 #endif /* end of include guard: DHSERVER_COMMON_H_*/
