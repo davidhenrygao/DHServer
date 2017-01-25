@@ -11,8 +11,6 @@
  *
  */
 
-#include <cstring>
-
 #include "common.h"
 #include "lock.h"
 

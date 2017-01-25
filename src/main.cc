@@ -14,7 +14,7 @@
 #include "common.h"
 #include "config_loader_factory.h"
 #include "configuration_factory.h"
-#include "lockqueue.h"
+#include "log_thread.h"
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
@@ -38,5 +38,9 @@ int main(int argc, char *argv[]) {
   ploader = NULL;
   pconfiguration->Print();
   LOG_INFO("DHServer Setup Success!");
+  LogThread logthread(kDebug);
+  logthread.Init();
+  logthread.Start();
+  logthread.Join();
   return 0;
 }

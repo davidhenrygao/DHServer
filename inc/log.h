@@ -14,6 +14,14 @@
 #ifndef DHSERVER_LOG_H_
 #define DHSERVER_LOG_H_
 
+enum LogLevel { 
+  kFatal,
+  kError,
+  kWarning,
+  kInfo,
+  kDebug,
+};
+
 //Max Message body's length
 #define MAX_MSG_LEN 128
 

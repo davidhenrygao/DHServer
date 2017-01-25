@@ -14,7 +14,7 @@
 #define DHSERVER_INTERNAL_LOGMSG_H_
 
 #include "common.h"
-#include "loglevel.h"
+#include "log.h"
 
 class LogMsg {
  public:

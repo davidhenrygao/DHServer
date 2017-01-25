@@ -19,6 +19,7 @@
 #include <vector>
 #include <map>
 #include <cerrno>
+#include <cstring>
 
 using namespace std;
 

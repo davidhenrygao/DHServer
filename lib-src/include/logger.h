@@ -15,7 +15,7 @@
 
 #include "common.h"
 #include "lockqueue.h"
-#include "loglevel.h"
+#include "log.h"
 #include "logmsg.h"
 
 //Singleton use a function's local static object variable.
