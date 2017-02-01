@@ -16,6 +16,10 @@ PROJ_LIB_SRC+=$(SRC)
 #	@echo $(MODULE_PATH)
 #	@echo $(SRC)
 
+$(PROJ_LIB_PATH)/$(LIB_NAME): |lib
 $(PROJ_LIB_PATH)/$(LIB_NAME): $(SRC:.cc=.o)
 	$(AR) $@ $^
 	$(RANLIB) $@
+
+lib:
+	mkdir lib
