@@ -16,27 +16,28 @@
 #include "configuration_factory.h"
 #include "log_thread.h"
 
+ConfigurationInterface * g_psysconfig = NULL;
+
 int main(int argc, char *argv[]) {
   if (argc != 2) {
     LOG_ERROR("Inupt Arguments Error!\n" \
       "Usage: DHServer configure_file");
     return -1;
   }
-  ConfigurationInterface *pconfiguration = 
-    ConfigurationFactory::GetConfiguration();
+  g_psysconfig = ConfigurationFactory::GetConfiguration();
   ConfigLoaderInterface *ploader = 
     ConfigLoaderFactory::GetLoader(kLuaLoader);
-  if (pconfiguration == NULL || ploader == NULL) {
+  if (g_psysconfig == NULL || ploader == NULL) {
     return -1;
   }
   string cfg_file(argv[1]);
-  if (!ploader->Load(cfg_file, pconfiguration)) {
+  if (!ploader->Load(cfg_file, g_psysconfig)) {
     LOG_ERROR("Init configure file failed!");
     return -1;
   }
   delete ploader;
   ploader = NULL;
-  pconfiguration->Print();
+  g_psysconfig->Print();
   LOG_INFO("DHServer Setup Success!");
   LogThread logthread(kDebug);
   logthread.Init();

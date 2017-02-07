@@ -19,7 +19,7 @@
 
 class LogThread: public Thread {
  public:
-  LogThread(LogLevel);
+  LogThread(LogLevel lv = kError);
   virtual ~LogThread();
   void Routine();
 

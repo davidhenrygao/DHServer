@@ -13,23 +13,20 @@
 
 #include <cstdio>
 #include <cstdarg>
-#include <ctime>
 
 #include "logger.h"
 #include "log.h"
+#include "time_manager.h"
 
 
 //prefix string format is '[YYYY-MM-DD HH:MM:SS] [LogLevel]'
 static const ssize_t kPrefixStrLen = 64;
-static const ssize_t kTimeStrLen = 32;
 
 static string GetPrefixString(LogLevel lv) {
   char prefix_buf[kPrefixStrLen] = {'\0'};
-  char time_buf[kTimeStrLen] = {'\0'};
-  time_t cur_time = time(NULL);
-  struct tm timeinfo;
-  localtime_r(&cur_time, &timeinfo);
-  strftime(time_buf, kTimeStrLen, "%Y-%m-%d %H:%M:%S", &timeinfo);
+  time_t cur_time = TimeManager::CurTime();
+  string timestring = TimeManager::FormatTimeString(
+                          cur_time, "%Y-%m-%d %H:%M:%S");
   string level_str;
   switch (lv) {
     case kFatal:
@@ -51,12 +48,14 @@ static string GetPrefixString(LogLevel lv) {
       level_str = "Unknown";
       break;
   }
-  snprintf(prefix_buf, kPrefixStrLen, "[%s] [%s]", time_buf, level_str.c_str());
+  snprintf(prefix_buf, kPrefixStrLen, "[%s] [%s]", 
+      timestring.c_str(), level_str.c_str());
   return string(prefix_buf);
 }
 
 static void LogCommon(LogLevel lv, const char *format, va_list ap) {
-  char msg_buf[MAX_MSG_LEN] = {'\0'};
+  //extra char for '\n'.
+  char msg_buf[MAX_MSG_LEN+1] = {'\0'};
   Logger &logger = Logger::getInstance();
 
   string prefix_str = GetPrefixString(lv);
@@ -66,9 +65,12 @@ static void LogCommon(LogLevel lv, const char *format, va_list ap) {
   char *pbuf_pos = msg_buf + prefix_str_len + 1;
   int ret = vsnprintf(pbuf_pos, left_len, format, ap);
   if (ret < 0 || (size_t)ret >= left_len) {
-    logger.Log(kError, prefix_str + string(" Log message body is truncated!"));
+    logger.Log(kError, prefix_str + string(" Log message body is truncated!\n"));
   }
 
+  size_t len = strlen(msg_buf);
+  msg_buf[len] = '\n';
+  msg_buf[len+1] = '\0';
   logger.Log(lv, string(msg_buf));
 }
 

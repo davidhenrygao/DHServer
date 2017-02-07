@@ -34,3 +34,6 @@ DHServer
 
 # Debug file
 core.*
+
+# log file
+log/*
