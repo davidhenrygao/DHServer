@@ -15,6 +15,8 @@
 #include "config_loader_factory.h"
 #include "configuration_factory.h"
 #include "log_thread.h"
+#include "worker_thread.h"
+#include "facilities.h"
 
 ConfigurationInterface * g_psysconfig = NULL;
 
@@ -42,6 +44,15 @@ int main(int argc, char *argv[]) {
   LogThread logthread(kDebug);
   logthread.Init();
   logthread.Start();
+  WorkerThread *wokers[10];
+  for (int i = 0; i < 10; ++i) {
+    wokers[i] = new WorkerThread(DataTypeTransfer::IntToString(i));
+    wokers[i]->Init();
+    wokers[i]->Start();
+  }
+  for (int i = 0; i < 10; ++i) {
+    wokers[i]->Join();
+  }
   logthread.Join();
   return 0;
 }

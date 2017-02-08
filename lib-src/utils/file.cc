@@ -63,7 +63,7 @@ bool File::CreateDirs(const string &dirpath) {
     temp = multidir.substr(0, pos);
     if (mkdir(temp.c_str(), S_IRWXU|S_IRWXG|S_IRWXO) != 0) {
       LOG_ERROR("Create File's directory(%s) error: %s!", 
-          multidir.c_str(), strerror(errno));
+          multidir.c_str(), StrError(errno).c_str());
       return false;
     }
   }
@@ -89,7 +89,7 @@ bool File::Open(const string &filename, const string &mode) {
   }
   fp_ = fopen(filename.c_str(), mode.c_str());
   if (fp_ == NULL) {
-    LOG_ERROR("Open file error: %s!", strerror(errno));
+    LOG_ERROR("Open file error: %s!", StrError(errno).c_str());
     return false;
   }
   return true;
@@ -100,7 +100,7 @@ bool File::Close() {
     int ret = fclose(fp_);
     fp_ = NULL;
     if (ret != 0) {
-      LOG_ERROR("Close file error: %s!", strerror(errno));
+      LOG_ERROR("Close file error: %s!", StrError(errno).c_str());
       return false;
     }
   }
@@ -115,7 +115,7 @@ size_t File::Read(void *pbuf, size_t size) {
       break;
     }
     if (ferror(fp_) != 0) {
-      LOG_ERROR("Read file error: %s!", strerror(errno));
+      LOG_ERROR("Read file error: %s!", StrError(errno).c_str());
       break;
     }
   }
@@ -127,7 +127,7 @@ size_t File::Write(const void *pbuf, size_t size) {
   while (wb < size) {
     wb += fwrite(pbuf, 1, size, fp_);
     if (ferror(fp_) != 0) {
-      LOG_ERROR("Write file error: %s!", strerror(errno));
+      LOG_ERROR("Write file error: %s!", StrError(errno).c_str());
       break;
     }
   }

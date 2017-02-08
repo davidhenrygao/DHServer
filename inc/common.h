@@ -24,6 +24,7 @@
 using namespace std;
 
 #include "log.h"
+#include "reentrant.h"
 
 #define MAX_ERROR_MSG_LEN 128
 

@@ -32,58 +32,54 @@ Mutex::~Mutex() {
 }
 
 bool Mutex::Init() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   pthread_mutexattr_t attr;
   int ret = pthread_mutexattr_init(&attr);
   if (ret != 0) {
     LOG_ERROR("pthread_mutexattr_init error: %s!", 
-        strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+        StrError(ret).c_str());
     return false;
   }
   ret = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
   if (ret != 0) {
     LOG_ERROR("pthread_mutexattr_settype error: %s!", 
-        strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+        StrError(ret).c_str());
     return false;
   }
   ret = pthread_mutex_init(&lock_, &attr);
   if (ret != 0) {
     LOG_ERROR("pthread_mutex_init error: %s!", 
-        strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+        StrError(ret).c_str());
     return false;
   }
   return true;
 }
 
 bool Mutex::Lock() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret = pthread_mutex_lock(&lock_);
   if (ret != 0) {
     LOG_ERROR("pthread_mutexattr_lock error: %s!", 
-        strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+        StrError(ret).c_str());
     return false;
   }
   return true;
 }
 
 bool Mutex::UnLock() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret = pthread_mutex_unlock(&lock_);
   if (ret != 0) {
     LOG_ERROR("pthread_mutexattr_unlock error: %s!", 
-        strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+        StrError(ret).c_str());
     return false;
   }
   return true;
 }
 
 bool Mutex::TryLock() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret = pthread_mutex_trylock(&lock_);
   if (ret != 0) {
     if (ret != EBUSY) {
       LOG_ERROR("pthread_mutexattr_trylock error: %s!", 
-          strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN));
+          StrError(ret).c_str());
     }
     return false;
   }

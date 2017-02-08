@@ -38,7 +38,7 @@ void ConfigurationMap::Set(string property, string value) {
 }
 
 void ConfigurationMap::SetInt(string property, int value) {
-  string strVal = DataTypeTranfer::IntToString(value);
+  string strVal = DataTypeTransfer::IntToString(value);
   cfg_map_[property] = strVal;
 }
 

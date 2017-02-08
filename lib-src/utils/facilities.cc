@@ -17,7 +17,7 @@
 using namespace std;
 
 //Tranfer integer to string by using sprintf.
-string DataTypeTranfer::IntToString(int i) {
+string DataTypeTransfer::IntToString(int i) {
   char buffer[256];
   sprintf(buffer, "%d", i);
   string retStr(buffer);

@@ -1,2 +1,2 @@
 CUR_DIR:=src
-PROJ_SRC+=$(CUR_DIR)/main.cc
+PROJ_SRC+=$(wildcard $(CUR_DIR)/*.cc)

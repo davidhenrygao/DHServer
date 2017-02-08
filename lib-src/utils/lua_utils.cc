@@ -29,7 +29,7 @@ bool LuaUtils::TableToMap(lua_State *L, int index, std::map<string, string> &map
           value = lua_tostring(L, -1);
           break;
         case LUA_TBOOLEAN:
-          value = DataTypeTranfer::IntToString(lua_toboolean(L, -1));
+          value = DataTypeTransfer::IntToString(lua_toboolean(L, -1));
           break;
         default:
           errFlag = true;

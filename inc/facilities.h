@@ -15,7 +15,7 @@
 #include "common.h"
 
 //A data transfer class utility.
-class DataTypeTranfer {
+class DataTypeTransfer {
  public:
   static string IntToString(int i);
 

@@ -21,7 +21,6 @@ Thread::~Thread() {
 }
 
 bool Thread::Init() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   if (state_ == kUninit) {
     int ret = pthread_attr_init(&attr_);
     if (ret == 0) {
@@ -29,8 +28,8 @@ bool Thread::Init() {
       return true;
     }
     else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Init thread attribute error: %s!", err_buf);
+      LOG_ERROR("Init thread attribute error: %s!", 
+          StrError(ret).c_str());
     }
   }
   else {
@@ -40,7 +39,6 @@ bool Thread::Init() {
 }
 
 bool Thread::Start() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   if (state_ == kInit || state_ == kExit) {
     int ret = pthread_create(&tid_, &attr_, &RtAdaptor, this);
     if (ret == 0) {
@@ -48,8 +46,8 @@ bool Thread::Start() {
       return true;
     }
     else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Thread start error: %s!", err_buf);
+      LOG_ERROR("Thread start error: %s!", 
+          StrError(ret).c_str());
       return false;
     }
   }
@@ -60,7 +58,6 @@ bool Thread::Start() {
 }
 
 bool Thread::SetDetach() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret;
   if (!joinable_) {
     return true;
@@ -72,8 +69,8 @@ bool Thread::SetDetach() {
       return true;
     }
     else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Set thread attribute detached error: %s!", err_buf);
+      LOG_ERROR("Set thread attribute detached error: %s!", 
+          StrError(ret).c_str());
       return false;
     }
   }
@@ -83,8 +80,8 @@ bool Thread::SetDetach() {
       joinable_ = false;
       return true;
     } else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Set thread detach error: %s!", err_buf);
+      LOG_ERROR("Set thread detach error: %s!", 
+          StrError(ret).c_str());
       return false;
     }
   }
@@ -93,7 +90,6 @@ bool Thread::SetDetach() {
 }
 
 bool Thread::SetJoinable() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret;
   if (joinable_) {
     return true;
@@ -105,8 +101,8 @@ bool Thread::SetJoinable() {
       return true;
     }
     else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Set thread attribute joinable error: %s!", err_buf);
+      LOG_ERROR("Set thread attribute joinable error: %s!", 
+          StrError(ret).c_str());
       return false;
     }
   }
@@ -115,7 +111,6 @@ bool Thread::SetJoinable() {
 }
 
 bool Thread::Join() {
-  char err_buf[MAX_ERROR_MSG_LEN];
   int ret;
   if(!joinable_) {
     LOG_INFO("Thread is not joinable!");
@@ -127,8 +122,8 @@ bool Thread::Join() {
       return true;
     }
     else {
-      strerror_r(ret, err_buf, MAX_ERROR_MSG_LEN);
-      LOG_ERROR("Thread join error: %s!", err_buf);
+      LOG_ERROR("Thread join error: %s!", 
+          StrError(ret).c_str());
       return false;
     }
   }
