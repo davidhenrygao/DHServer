@@ -19,10 +19,10 @@ class ConfigurationMap: public ConfigurationInterface {
  public:
   ConfigurationMap() {};
   virtual ~ConfigurationMap() {};
-  bool Get(string property, string &value) const;
-  void Set(string property, string value);
-  bool GetInt(string property, int &value) const;
-  void SetInt(string property, int value);
+  bool Get(const string &property, string &value) const;
+  void Set(const string &property, string value);
+  bool GetInt(const string &property, int &value) const;
+  void SetInt(const string &property, int value);
   void Print() const;
 
  private:

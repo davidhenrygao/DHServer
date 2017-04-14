@@ -14,7 +14,7 @@
 #include "common.h"
 #include "logger.h"
 
-Logger::Logger() : init_(false), lq_() {
+Logger::Logger() : init_(false), lq_(), daemonize_(false) {
   init_ = lq_.Init();
 }
 
@@ -24,8 +24,10 @@ Logger& Logger::getInstance() {
 }
 
 void Logger::Log(LogLevel lv, const string &msg) {
-  //std::cout << msg << std::endl;
   size_t sz;
+  if (!daemonize_) {
+    std::cout << msg << std::endl;
+  }
   if (init_) {
     LogMsg *pmsg = new LogMsg(lv, msg);
     sz = lq_.Push(pmsg);
@@ -43,4 +45,8 @@ LogMsg* Logger::FetchLogMsg() {
   LogMsg* pmsg = NULL;
   lq_.Pop(pmsg);
   return pmsg;
+}
+
+void Logger::SetDaemonize() {
+  daemonize_ = true;
 }

@@ -10,13 +10,13 @@
  * Note: 
  *
  */
-
 #include "common.h"
 #include "config_loader_factory.h"
 #include "configuration_factory.h"
 #include "log_thread.h"
 #include "worker_thread.h"
 #include "facilities.h"
+#include "daemonize.h"
 
 ConfigurationInterface * g_psysconfig = NULL;
 
@@ -40,18 +40,30 @@ int main(int argc, char *argv[]) {
   delete ploader;
   ploader = NULL;
   g_psysconfig->Print();
-  LOG_INFO("DHServer Setup Success!");
+  int daemonize = 0;
+  string root_dir;
+  const char *prootdir = NULL;
+  g_psysconfig->GetInt("daemonize", daemonize);
+  if (daemonize) {
+    if (g_psysconfig->Get("root_dir", root_dir)) {
+      prootdir = root_dir.c_str();
+    }
+    if (Daemonize(prootdir) != 0) {
+      return -1;
+    }
+  }
   LogThread logthread(kDebug);
   logthread.Init();
   logthread.Start();
-  WorkerThread *wokers[10];
+  WorkerThread *workers[10];
   for (int i = 0; i < 10; ++i) {
-    wokers[i] = new WorkerThread(DataTypeTransfer::IntToString(i));
-    wokers[i]->Init();
-    wokers[i]->Start();
+    workers[i] = new WorkerThread(DataTypeTransfer::IntToString(i));
+    workers[i]->Init();
+    workers[i]->Start();
   }
+  LOG_INFO("DHServer Setup Success!");
   for (int i = 0; i < 10; ++i) {
-    wokers[i]->Join();
+    workers[i]->Join();
   }
   logthread.Join();
   return 0;

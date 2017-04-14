@@ -27,10 +27,12 @@ class Logger {
   void Log(LogLevel lv, const string &msg);
   bool IsInit()const;
   LogMsg* FetchLogMsg();
+  void SetDaemonize();
 
  private:
   bool init_;
   LockQueue<LogMsg*> lq_;
+  bool daemonize_;
 
   Logger();
   Logger(const Logger&);
